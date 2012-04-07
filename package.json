@@ -1,0 +1,17 @@
+{
+  "name": "blsm",
+  "version": "0.0.0",
+  "bin": {
+    "blsm": "bin/blsm",
+    "blsm-pow": "bin/blsm-pow",
+    "blsm-server": "bin/blsm-server",
+    "blsm-random-port": "bin/blsm-random-port"
+  },
+  "dependencies": {
+    "connect": "~2.1.0",
+    "express": "git://github.com/visionmedia/express.git",
+    "jade": "~0.22.0",
+    "nib": "~0.4.0",
+    "stylus": "~0.25.0"
+  }
+}

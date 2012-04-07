@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -e
+name=$(basename "$PWD")
+ln -f -s "$PWD/.port" ~/.pow/$name
+echo "Created symlink ~/.pow/${name} => .port"
