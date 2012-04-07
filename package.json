@@ -1,16 +1,16 @@
-{
-  "name": "flower",
-  "version": "0.0.0",
-  "bin": {
-    "flower": "bin/flower",
-    "flower-pow": "bin/flower-pow",
-    "flower-server": "bin/flower-server",
-    "flower-random-port": "bin/flower-random-port"
-  },
-  "dependencies": {
-    "express": "git://github.com/visionmedia/express.git",
-    "jade": "*",
-    "stylus": "*",
-    "nib": "*"
+{ "name": "flower"
+, "version": "0.0.0"
+, "bin":
+  { "flower": "bin/flower"
+  , "flower-pow": "bin/flower-pow"
+  , "flower-server": "bin/flower-server"
+  , "flower-random-port": "bin/flower-random-port"
+  }
+, "dependencies":
+  { "express": "git://github.com/visionmedia/express.git"
+  , "jade": "*"
+  , "stylus": "*"
+  , "nib": "*"
+  , "normalize": "*"
   }
 }
