@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "express": "git://github.com/visionmedia/express.git",
-    "connect": "~2",
     "jade": "*",
     "stylus": "*",
     "nib": "*"
