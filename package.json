@@ -1,11 +1,11 @@
 {
-  "name": "blsm",
+  "name": "flower",
   "version": "0.0.0",
   "bin": {
-    "blsm": "bin/blsm",
-    "blsm-pow": "bin/blsm-pow",
-    "blsm-server": "bin/blsm-server",
-    "blsm-random-port": "bin/blsm-random-port"
+    "flower": "bin/flower",
+    "flower-pow": "bin/flower-pow",
+    "flower-server": "bin/flower-server",
+    "flower-random-port": "bin/flower-random-port"
   },
   "dependencies": {
     "express": "git://github.com/visionmedia/express.git",

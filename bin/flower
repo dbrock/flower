@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function log { echo blsm: "$@" >&2; }
+function log { echo flower: "$@" >&2; }
 
 case "$1" in
   -*) ;; *) command="$1"; shift ;;
@@ -8,15 +8,15 @@ esac
 
 [[ $command == server ]] && {
   [[ -n $PORT ]] || [[ -e .port ]] || {
-    port=$(blsm random-port)
+    port=$(flower random-port)
     log "Initializing ‘.port’ file to $port."
-    log "Use ‘blsm pow’ to hook into Pow (requires Pow 0.4)."
+    log "Use ‘flower pow’ to hook into Pow (requires Pow 0.4)."
     echo $port > .port
   }
 }
 
 if [[ -z $command ]]; then
-  echo "Use ‘blsm server’ to run the web server."
+  echo "Use ‘flower server’ to run the web server."
 else
-  blsm-$command "$@"
+  flower-$command "$@"
 fi

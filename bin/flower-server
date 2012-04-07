@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+// -*- javascript -*-
+
+require("flower")(function (app) {
+})

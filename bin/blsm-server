@@ -1,6 +1,0 @@
-#!/usr/bin/env node
-// -*- javascript -*-
-
-require("blsm")(function (app) {
-  console.log("Application started.")
-})
