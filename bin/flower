@@ -6,13 +6,14 @@ esac
 
 if [[ $command ]]; then
   "flower-$command" "$@"
+elif [[ -f package.json ]]; then
+  echo 'Found package.json; delegating server launch to NPM.'
+  flower ps1 npm start
+elif [[ -f server.js ]]; then
+  echo 'Found server.js; launching server directly...'
+  flower ps1 node server.js
 else
-  echo \
-————————————————————————————————————————————————————————————————————————————————
-  echo "\
-         Exposing current directory as a basic Flower app..."
-  echo \
-————————————————————————————————————————————————————————————————————————————————
+  echo 'Starting default Flower server...'
   [[ $PORT ]] || [[ -f .port ]] || flower pick-port
   flower ps1 node -e 'require("flower").listen()'
 fi
