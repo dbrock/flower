@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+
+require("child_process").exec("finger `whoami`", function (error, stdout) {
+  if (error) {
+    throw error
+  } else {
+    console.log(stdout.replace(/[\s\S]*\bName: (.*)[\s\S]*/, "$1"))
+  }
+})

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -e
+
+flower ps1 sh -c "flower get-random-port > .port"
+flower ps1 cat .port
+
+echo 'Tip: You probably shouldn’t check `.port` into version control.'

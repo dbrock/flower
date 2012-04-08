@@ -1,18 +1,32 @@
 {
+  "author": "Daniel Brockman <daniel@brockman.se>",
   "name": "flower",
+  "description": "Flower = Node.js + Express + Jade + Stylus + Nib",
   "version": "0.0.0",
-  "main": "index.js",
+  "homepage": "http://github.com/dbrock/flower",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dbrock/flower.git"
+  },
+  "main": "lib/flower.js",
   "bin": {
     "flower": "bin/flower",
+    "flower-get-random-port": "bin/flower-get-random-port",
+    "flower-pick-port": "bin/flower-pick-port",
     "flower-pow": "bin/flower-pow",
-    "flower-server": "bin/flower-server",
-    "flower-random-port": "bin/flower-random-port"
+    "flower-ps1": "bin/flower-ps1",
+    "flower-real-name": "bin/flower-real-name"
   },
   "dependencies": {
+    "colors": "~0.6",
     "express": "git://github.com/visionmedia/express.git",
-    "jade": "*",
-    "stylus": "*",
-    "nib": "*",
-    "normalize": "*"
+    "jade": "~0.22",
+    "stylus": "~0.25",
+    "nib": "~0.4"
+  },
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "~0.6"
   }
 }
