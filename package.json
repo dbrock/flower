@@ -9,14 +9,7 @@
     "url": "git://github.com/dbrock/flower.git"
   },
   "main": "lib/flower.js",
-  "bin": {
-    "flower": "bin/flower",
-    "flower-get-random-port": "bin/flower-get-random-port",
-    "flower-pick-port": "bin/flower-pick-port",
-    "flower-pow": "bin/flower-pow",
-    "flower-ps1": "bin/flower-ps1",
-    "flower-real-name": "bin/flower-real-name"
-  },
+  "bin": "bin/flower",
   "dependencies": {
     "colors": "~0.6",
     "express": "git://github.com/visionmedia/express.git",

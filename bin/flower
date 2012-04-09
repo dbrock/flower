@@ -1,19 +1,131 @@
 #!/bin/bash
 
-case "$1" in
-  -*) ;; *) command="$1"; shift ;;
-esac
-
-if [[ $command ]]; then
-  "flower-$command" "$@"
-elif [[ -f package.json ]]; then
-  echo 'Found package.json; delegating server launch to NPM.'
-  flower ps1 npm start
-elif [[ -f server.js ]]; then
-  echo 'Found server.js; launching server directly...'
-  flower ps1 node server.js
+if [[ "$1" =~ ^[^-] ]]; then
+  command="$1"; shift
 else
-  echo 'Starting default Flower server...'
-  [[ $PORT ]] || [[ -f .port ]] || flower pick-port
-  flower ps1 node -e 'require("flower").listen()'
+  command=start
 fi
+
+function flower:log() {
+  flower:call log "$@"
+}
+
+#—————————————————————————————————————————————————————————————————————
+# Call into `flower/lib/foo.js` using `flower call foo`
+#—————————————————————————————————————————————————————————————————————
+function flower:call() {
+  command=$1; shift
+  node "$(flower:print-libdir)/flower/$command.js" "$@"
+}
+
+function flower:print-libdir() {
+  echo $(node -e 'console.log(require.resolve("flower"))')/..
+}
+
+#—————————————————————————————————————————————————————————————————————
+# Main entry point: `flower` (or `flower start`)
+#—————————————————————————————————————————————————————————————————————
+
+function flower:start() {
+  flower:ensure-port
+  [[ -d ~/.pow ]] && flower:pow --silent
+
+  if [[ -f package.json ]]; then
+    flower:log \
+'Found `package.json`.
+Will delegate server launch to `npm`.'
+    flower:with-ps1 npm start
+  elif [[ -f server.js ]]; then
+    flower:log \
+'No `package.json` found, but found `server.js`.
+Will launch Node.js directly.'
+    flower:with-ps1 node server.js
+  else
+    flower:log \
+'Neither `package.json` nor `server.js` found.
+Launching default Flower server.'
+    flower:with-ps1 flower server
+  fi
+}
+
+function flower:server() {
+  flower:ensure-port
+  flower:with-ps1 node -e 'require("flower").listen()'
+}
+
+function flower:ensure-port() {
+  [[ $PORT ]] || [[ -f .port ]] || flower:pick-port
+}
+
+function flower:ensure-port-file() {
+  [[ -f .port ]] || flower:with-ps1 flower pick-port
+}
+
+function flower:pick-port() {
+  set -e
+
+  flower:log 'Picking random available port...'
+  flower:call get-random-port > .port
+  flower:with-ps1 cat .port
+  flower:log 'Tip: Add `.port` to your `.gitignore`.'
+}
+
+#—————————————————————————————————————————————————————————————————————
+# Pow
+#—————————————————————————————————————————————————————————————————————
+function flower:pow() {
+  set -e
+
+  flower:ensure-port-file
+
+  name=$(basename "$PWD")
+  symlink=~/.pow/"$name"
+  portfile="$PWD/.port"
+
+  function print-instructions() {
+    flower:log "Pow URL: <http://${name}.dev/>"'
+
+!!Note:!! Pow 0.4 is needed for this to work.
+``git clone https://github.com/37signals/pow.git``
+``cd pow; cake install; cake stop; cake start``'
+  }
+
+  if [[ $(readlink "$symlink") = $portfile ]]; then
+    if [[ "$1" != --silent ]]; then
+      flower:with-ps1 ls -lh "$symlink"
+      flower:log "Application already linked to Pow."
+      print-instructions
+    fi
+  else
+    flower:log "Linking application to Pow..."
+    flower:with-ps1 ln -f -s "$portfile" "$symlink"
+    print-instructions
+  fi
+}
+
+#—————————————————————————————————————————————————————————————————————
+# Nifty hack for $PS1-enabled logging of subcommands
+#—————————————————————————————————————————————————————————————————————
+function flower:with-ps1() {
+  if [[ "$1 $2" = "sh -c" ]]; then
+    command="$3"
+  else
+    command=$(printf '%q ' "$@")
+  fi
+
+  echo "$(flower:get-ps1)"$'\e[90m'"$command"$'\e[0m'
+  "$@"
+}
+
+function flower:get-ps1() {
+  echo : CUT-HERE |
+  bash -i 3>&1 >/dev/null 2>&3 |
+  perl -0777 -ne '
+    s/[\s\S]*CUT-HERE\n([\s\S]*)exit\Z/$1/;
+    print substr($_, 0, -1)
+  '
+}
+
+#—————————————————————————————————————————————————————————————————————
+"flower:$command" "$@"
+#—————————————————————————————————————————————————————————————————————
