@@ -14,8 +14,8 @@
     "colors": "~0.6",
     "express": "git://github.com/visionmedia/express.git",
     "jade": "~0.22",
-    "stylus": "~0.25",
-    "nib": "~0.4"
+    "stylus": "git://github.com/LearnBoost/stylus.git",
+    "nib": "git://github.com/dbrock/nib.git"
   },
   "devDependencies": {},
   "optionalDependencies": {},
