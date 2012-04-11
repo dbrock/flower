@@ -1,9 +1,9 @@
 {
-  "author": "Daniel Brockman <daniel@brockman.se>",
+  "author": "Daniel Brockman <@dbrock>",
   "name": "flower",
-  "description": "Flower = Node.js + Express + Jade + Stylus + Nib",
+  "description": "Node.js + Express + Jade + Stylus/Nib + ??? = $$$",
   "version": "0.0.0",
-  "homepage": "http://github.com/dbrock/flower",
+  "homepage": "git://github.com/dbrock/flower",
   "repository": {
     "type": "git",
     "url": "git://github.com/dbrock/flower.git"

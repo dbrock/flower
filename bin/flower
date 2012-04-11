@@ -1,49 +1,44 @@
 #!/bin/bash
 
+#—————————————————————————————————————————————————————————————————————
+# Invoke `flower/foo.js` from the CLI using `flower invoke foo`:
+#—————————————————————————————————————————————————————————————————————
+function flower:invoke() {
+  node -e 'require("flower").__invoke__()' -- "$@"
+}
+
+function flower:log() {
+  flower:invoke log "$@"
+}
+
+#—————————————————————————————————————————————————————————————————————
+# Main entry point: `flower` (or `flower dwim`)
+#—————————————————————————————————————————————————————————————————————
+
 if [[ "$1" =~ ^[^-] ]]; then
   command="$1"; shift
 else
-  command=start
+  command=dwim
 fi
 
-function flower:log() {
-  flower:call log "$@"
-}
-
-#—————————————————————————————————————————————————————————————————————
-# Call into `flower/lib/foo.js` using `flower call foo`
-#—————————————————————————————————————————————————————————————————————
-function flower:call() {
-  command=$1; shift
-  node "$(flower:print-libdir)/flower/$command.js" "$@"
-}
-
-function flower:print-libdir() {
-  echo $(node -e 'console.log(require.resolve("flower"))')/..
-}
-
-#—————————————————————————————————————————————————————————————————————
-# Main entry point: `flower` (or `flower start`)
-#—————————————————————————————————————————————————————————————————————
-
-function flower:start() {
+function flower:dwim() {
   flower:ensure-port
   [[ -d ~/.pow ]] && flower:pow --silent
 
   if [[ -f package.json ]]; then
     flower:log \
 'Found `package.json`.
-Will delegate server launch to `npm`.'
+Will delegate app launch to `npm`.'
     flower:with-ps1 npm start
-  elif [[ -f server.js ]]; then
+  elif [[ -f app.js || -f server.js ]]; then
     flower:log \
-'No `package.json` found, but found `server.js`.
-Will launch Node.js directly.'
+'No `package.json` found, but found `'$((-f app.js ? app.js : server.js))'`.
+Will launch your app directly.'
     flower:with-ps1 node server.js
   else
     flower:log \
-'Neither `package.json` nor `server.js` found.
-Launching default Flower server.'
+'No `package.json`, nor any `app.js`/`server.js` found.
+Will use standard-issue Flower server.'
     flower:with-ps1 flower server
   fi
 }
