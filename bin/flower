@@ -60,7 +60,7 @@ function flower:pick-port() {
   set -e
 
   flower:log 'Picking random available port...'
-  flower:call get-random-port > .port
+  flower:invoke get-random-port > .port
   flower:with-ps1 cat .port
   flower:log 'Tip: Add `.port` to your `.gitignore`.'
 }
