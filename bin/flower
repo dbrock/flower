@@ -78,11 +78,13 @@ function flower:pow() {
   portfile="$PWD/.port"
 
   function print-instructions() {
+    echo ————————————————————————————————————————————————————————————
     flower:log "Pow URL: <http://${name}.dev/>"'
 
 !!Note:!! Pow 0.4 is needed for this to work.
 ``git clone https://github.com/37signals/pow.git``
 ``cd pow; cake install; cake stop; cake start``'
+    echo ————————————————————————————————————————————————————————————
   }
 
   if [[ $(readlink "$symlink") = $portfile ]]; then
